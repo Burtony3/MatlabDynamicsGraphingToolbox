@@ -18,9 +18,10 @@ function plotSetup(N,Name)
             fig(N) = figure(N);
             clf(fig(N))
             fig(N).Name = Name;
+            fig(N).NumberTitle = 'off';
             xlim([0 1])
             ylim([0 1])
-            axis off
+            axis off equal
             hold on
             
         case 1
@@ -28,7 +29,7 @@ function plotSetup(N,Name)
             clf(fig(N))
             xlim([0 1])
             ylim([0 1])
-            axis off
+            axis off equal
             hold on
             
         case 0
@@ -36,7 +37,7 @@ function plotSetup(N,Name)
             clf(gcf)
             xlim([0 1])
             ylim([0 1])
-            axis off
+            axis off equal
             hold on
     end
         
