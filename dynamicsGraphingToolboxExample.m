@@ -30,7 +30,7 @@ EOM of the System:
         plotSetup(1,'Example 1: Pendulum')
         plotGround(0.9,'down')
         endPoint = plotLine([0.5 0.9],L,angle(i,1)-90);
-        plotCircle(endPoint,0.03)
+        plotCircle(endPoint,0.03);
         hold off
         
         %Capturing Image for Gif

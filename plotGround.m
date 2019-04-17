@@ -19,8 +19,10 @@ function plotGround(varargin)
 %
 %    See also PLOTSETUP, PLOTLINE.
 
+%% TODO:
+   %* Change inputs from xSpan & ySpan --> point1 & point2
+
     switch nargin
-        
 %% Sloped Ground Case
         case 3
             %Angle Check
@@ -32,7 +34,7 @@ function plotGround(varargin)
                 end
             
             %Finding Spline Number
-                numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*3;
+                numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*5;
             
             if isequal(varargin{3},'up')
                 
@@ -63,17 +65,17 @@ function plotGround(varargin)
             end
 
             %Debugging Print
-                fprintf('DEBUG: Case 3 Activated\n')
-                fprintf('DEBUG: Number of Splines = %g\n',numSplines)
-                fprintf('DEBUG: Line Angle = %g Degrees\n',angle*(180/pi))
+%                 fprintf('DEBUG: Case 3 Activated\n')
+%                 fprintf('DEBUG: Number of Splines = %g\n',numSplines)
+%                 fprintf('DEBUG: Line Angle = %g Degrees\n',angle*(180/pi))
             
 %% Flat Ground Case w/ Orientation
         case 2  
             if isscalar(varargin{1}) && ischar(varargin{2})
                 
                 %Finding Spline Locations
-                    xSpline(:,1) = linspace(0.02,1,30);
-                    ySpline(:,1) = linspace(varargin{1},varargin{1},30);
+                    xSpline(:,1) = linspace(0.02,1,50);
+                    ySpline(:,1) = linspace(varargin{1},varargin{1},50);
                     xSpline(:,2) = xSpline(:,1) - 0.015;
                     if isequal(varargin{2},'up')
                         ySpline(:,2) = ySpline(:,1) - 0.015;
@@ -99,7 +101,7 @@ function plotGround(varargin)
                     end
 
                 %Finding Spline Number
-                    numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*3;
+                    numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*5;
 
                 %Finding Spline Locations
                     xSpline(:,1) = linspace(varargin{1}(1),varargin{1}(2),numSplines);
@@ -118,13 +120,13 @@ function plotGround(varargin)
             end
             
             %Debugging Print
-                fprintf('DEBUG: Case 2 Activated\n')
+%                 fprintf('DEBUG: Case 2 Activated\n')
             
 %% Basic Flat Ground
         case 1
             %Finding Spline Locations
-                xSpline(:,1) = linspace(0.02,1,30);
-                ySpline(:,1) = linspace(varargin{1},varargin{1},30);
+                xSpline(:,1) = linspace(0.02,1,50);
+                ySpline(:,1) = linspace(varargin{1},varargin{1},50);
                 xSpline(:,2) = xSpline(:,1) - 0.015;
                 ySpline(:,2) = ySpline(:,1) - 0.015;
 
@@ -133,7 +135,7 @@ function plotGround(varargin)
                      xSpline',ySpline','-k','LineWidth',1.5)
                  
              %Debugging Print
-                fprintf('DEBUG: Case 1 Activated\n')
+%                 fprintf('DEBUG: Case 1 Activated\n')
 
 %% Error Case
         case 0 %Not Enough Inputs

@@ -8,10 +8,11 @@ function output = plotLine(startPoint,varargin)
 %
 %    See also PLOTSETUP, PLOTCIRCLE.
 
-    switch nargin
-        
-%% Start Point with Length and Angle Case
+%% TODO:
+   %* Ability to add text to line
 
+    switch nargin
+%% Start Point with Length and Angle Case
         case 3
             %Finding End Point
                 endPoint = [startPoint(1) + varargin{1}*cosd(varargin{2}),...
@@ -25,13 +26,14 @@ function output = plotLine(startPoint,varargin)
                 output = endPoint;
                 
             %Debugging Text
-                fprintf('DEBUG: End Point Case Activated\n')
-                fprintf('       End Point Located at [%g %g]\n',endPoint)
+%                 fprintf('DEBUG: End Point Case Activated\n')
+%                 fprintf('       End Point Located at [%g %g]\n',endPoint)
             
 %% Start Point to End Point Case
-
         case 2
-
+            %Plotting
+                plot([startingPoint(1) varargin{1}(1)],[startingPoint(2) varargin{1}(2)],...
+                     '-k','LineWidth',1.5)
     end
     
 end

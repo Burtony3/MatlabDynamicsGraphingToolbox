@@ -1,25 +1,38 @@
 function edgePositions = plotCircle(cPos,R,varargin)
-% PLOTGROUND plots a datum for use in dynamics problems.
-%    PLOTGROUND(H) adds a flat ground at height H
+% PLOTCIRCLE plots a datum for use in dynamics problems.
+%    PLOTCIRCLE(centerPosition(x,y),R) Plots a circle at centerPostion
+%    with Radius R.
+%    
+%    Also outputs the four edge positions starting from horizontal at 
+%    angles = [0 90 180 270] Degrees
 %
-%    PLOTGROUND(H,Orientation) adds a flat ground at height H with
-%    Orientation up or down
-%
-%    PLOTGROUND(xSpan , ySpan) adds a ground with 
-%       Starting point: [xSpan(1) ySpan(1)]
-%       Ending point: [xSpan(2) ySpan(2)]
-%
-%    PLOTGROUND(xSpan , ySpan , Orientation) adds a ground with 
-%       Starting point: [xSpan(1) ySpan(1)]
-%       Ending point: [xSpan(2) ySpan(2)]
-%       Orientation: Declares which side the splines are on
-%           * 'up' or 'down' with reference to flat ground
-%           * For vertical lines: 'down' negative normal direction
-%                                 'up' is positive normal direction
+%    PLOTCIRCLE(centerPosition(x,y),R,angle will adjust the above positions
+%    with the given angle
 %
 %    See also PLOTSETUP, PLOTLINE.
 
+%% TODO:
+   %* The length of the theta array should scale with figure limits
+   %* Add ability to add text to circle
+
     switch nargin
+%% Angle Specified Case
+        case 3
+            if R >= 0.5 
+                theta = linspace(0,2*pi,720);
+            else
+                theta = linspace(0,2*pi,360);
+            end
+            
+            xCirc = R*cos(theta) + cPos(1);
+            yCirc = R*sin(theta) + cPos(2);
+            
+            plot(xCirc,yCirc,'-k','LineWidth',1.5)
+            fill(xCirc,yCirc,'w')
+            
+            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2] + rad2deg(varargin{1})) + cPos(1);
+            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2] + rad2deg(varargin{1})) + cPos(2);
+        
         
 %% Radius and Position Case
         case 2
@@ -34,6 +47,9 @@ function edgePositions = plotCircle(cPos,R,varargin)
             
             plot(xCirc,yCirc,'-k','LineWidth',1.5)
             fill(xCirc,yCirc,'w')
+            
+            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2]) + cPos(1);
+            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2]) + cPos(2);
     end
     
 end
