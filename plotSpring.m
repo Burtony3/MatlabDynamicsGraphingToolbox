@@ -57,9 +57,9 @@ function plotSpring(startPoint,endPoint,numSpikes,startLength)
     plot([lastPoint(1) endPoint(1)],[lastPoint(2) endPoint(2)],'-k','LineWidth',1.25)
     
 %% Debugging
-fprintf('Angle of Individual Spring = %g\n',phi)
-fprintf('Individual Spring Length = %g\n',l)
-fprintf('Total Spring Length = %g\n\n',L)
+% fprintf('Angle of Individual Spring = %g\n',phi)
+% fprintf('Individual Spring Length = %g\n',l)
+% fprintf('Total Spring Length = %g\n\n',L)
     
         
 %% Nested Function
