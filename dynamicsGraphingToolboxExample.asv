@@ -237,13 +237,13 @@ EOM of the System:
 %Plotting
     filename = 'Examples\Ex4.gif';
     framesSkipped = 4;
-    tDelay = (tMax/(numPoints*1.2))*framesSkipped;
+    tDelay = (tMax/numPoints)*framesSkipped;
     for i = 1:length(x)
         fig1 = figure(1);
         clf(gcf)
         fig1.Name = 'Example 4';
         xlim([-0.25 1.25]) %Custom Bounds were Required so plotSetup did not apply
-        ylim([0 1])
+        ylim([0 1.1])
         axis off equal
         hold on
         plotGround([0.3 0.4],[0.75 0.75],'down')

@@ -30,8 +30,8 @@ function edgePositions = plotCircle(cPos,R,varargin)
             plot(xCirc,yCirc,'-k','LineWidth',1.5)
             fill(xCirc,yCirc,'w')
             
-            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2] + rad2deg(varargin{1})) + cPos(1);
-            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2] + rad2deg(varargin{1})) + cPos(2);
+            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(1);
+            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(2);
         
         
 %% Radius and Position Case
