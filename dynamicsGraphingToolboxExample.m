@@ -207,12 +207,14 @@ EOM of the System:
     l = [0.55 0.5];
     k = 0.5;
     g = 9.81;
+    alpha = 0.0761;
     
 %Matricies
     M = [m*l(1)^2     0;
              0    m*l(2)^2];
     K = [(k*l(1)^2 +m*g*l(1))     (-k*l(1)*l(2));
             (-k*l(1)*l(2))    (k*l(2)^2 + m*g*l(2))]; %Derived from EoMs
+    C = alpha*M;
      
 %Eigenvectors/Eigenvalues
     [u,lambda] = eig(inv(M)*K,'vector');
@@ -221,13 +223,13 @@ EOM of the System:
 %EoM Functions
     K = inv(M)*K;
     f = @(t,x) [x(2);
-                -K(1,1)*x(1) - K(1,2)*x(3);
+                -C(1,1)*x(2) - C(1,2)*x(4) - K(1,1)*x(1) - K(1,2)*x(3);
                 x(4);
-                -K(2,1)*x(1) - K(2,2)*x(3)];
+                -C(2,1)*x(2) - C(2,2)*x(4) - K(2,1)*x(1) - K(2,2)*x(3)];
             
 %ODE45
     tMax = 20;
-    numPoints = 1000;
+    numPoints = 800;
     tSpan = linspace(0,tMax,numPoints);
     options = odeset('AbsTol',1e-6,'RelTol',1e-6);
     IC = [-10 0;
@@ -236,8 +238,75 @@ EOM of the System:
     
 %Plotting
     filename = 'Examples\Ex4.gif';
-    framesSkipped = 4;
-    tDelay = (tMax/(numPoints*1.2))*framesSkipped;
+    framesSkipped = 3;
+    tDelay = ((tMax*1.2)/numPoints)*framesSkipped;
+    for i = 1:length(x)
+        fig1 = figure(1);
+        clf(gcf)
+        set(gcf,'Position',[345,333,1180,500]);
+        subplot(1,2,1)
+            fig1.Name = 'Example 4';
+            xlim([-0.25 1.25]) %Custom Bounds were Required so plotSetup did not apply
+            ylim([0 1])
+            axis off equal
+            hold on
+            plotGround([0.3 0.4],[0.75 0.75],'down')
+            plotGround([0.6 0.7],[0.70 0.70],'down')
+            endPen1 = plotLine([0.35 0.75],l(1),x(i,1) - 90);
+            endPen2 = plotLine([0.65 0.70],l(2),x(i,3) - 90);
+            circ1Pos = plotCircle(endPen1,0.03,x(i,1));
+            circ2Pos = plotCircle(endPen2,0.03,x(i,3));
+            plotSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
+        subplot(1,2,2)
+            plotPhaseDiagram(x,t,i,1)
+            legend('Pendulum 1','Pendulum 2')
+            xlabel('Angular Position (in Degrees)')
+            ylabel('Angular Velocity (in Degrees per Second)')
+        saveDynPlot(filename,i,tDelay,framesSkipped)
+    end
+
+    
+%% Example 5 (2 Pendulums Connected with a Spring)
+
+%Givens
+    m = 0.5;
+    l = [0.55 0.5];
+    k = 0.5;
+    g = 9.81;
+    F = [0.2 0];
+    alpha = 0.0761;
+    
+%Matricies
+    M = [m*l(1)^2     0;
+             0    m*l(2)^2];
+    K = [(k*l(1)^2 +m*g*l(1))     (-k*l(1)*l(2));
+            (-k*l(1)*l(2))    (k*l(2)^2 + m*g*l(2))]; %Derived from EoMs
+    C = alpha*M;
+     
+%Eigenvectors/Eigenvalues
+    [u,lambda] = eig(inv(M)*K,'vector');
+    wn = sqrt(lambda);
+     
+%EoM Functions
+    K = inv(M)*K;
+    f = @(t,x) [x(2);
+                -C(1,1)*x(2) - C(1,2)*x(4) - K(1,1)*x(1) - K(1,2)*x(3) - F(1)*cos(wn(1)*t);
+                x(4);
+                -C(2,1)*x(2) - C(2,2)*x(4) - K(2,1)*x(1) - K(2,2)*x(3) - F(2)*cos(wn(1)*t)];
+            
+%ODE45
+    tMax = 20;
+    numPoints = 800;
+    tSpan = linspace(0,tMax,numPoints);
+    options = odeset('AbsTol',1e-6,'RelTol',1e-6);
+    IC = [0 0;
+          0 0];
+    [t,x] = ode45(f,tSpan,IC,options);
+    
+%Plotting
+    filename = 'Examples\Ex4.gif';
+    framesSkipped = 3;
+    tDelay = ((tMax*1.2)/numPoints)*framesSkipped;
     for i = 1:length(x)
         fig1 = figure(1);
         clf(gcf)
@@ -253,9 +322,6 @@ EOM of the System:
         circ1Pos = plotCircle(endPen1,0.03,x(i,1));
         circ2Pos = plotCircle(endPen2,0.03,x(i,3));
         plotSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
-        saveDynPlot(filename,i,tDelay,framesSkipped)
+        plotForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
+%         saveDynPlot(filename,i,tDelay,framesSkipped)
     end
-%     for i = 1:length(x)
-%         
-%     end
-    
