@@ -273,8 +273,8 @@ EOM of the System:
     l = [0.55 0.5];
     k = 0.5;
     g = 9.81;
-    F = [0.2 0];
-    alpha = 0.0761;
+    F = [8 ; 0];
+    alpha = 0.2436;
     
 %Matricies
     M = [m*l(1)^2     0;
@@ -284,15 +284,17 @@ EOM of the System:
     C = alpha*M;
      
 %Eigenvectors/Eigenvalues
-    [u,lambda] = eig(inv(M)*K,'vector');
+    [u,lambda] = eig(M\K,'vector');
     wn = sqrt(lambda);
      
 %EoM Functions
-    K = inv(M)*K;
+    K = M\K;
+    C = M\C;
+    F = M\F;
     f = @(t,x) [x(2);
-                -C(1,1)*x(2) - C(1,2)*x(4) - K(1,1)*x(1) - K(1,2)*x(3) - F(1)*cos(wn(1)*t);
+                -C(1,1)*x(2) - C(1,2)*x(4) - K(1,1)*x(1) - K(1,2)*x(3) + F(1)*cos(wn(1)*t);
                 x(4);
-                -C(2,1)*x(2) - C(2,2)*x(4) - K(2,1)*x(1) - K(2,2)*x(3) - F(2)*cos(wn(1)*t)];
+                -C(2,1)*x(2) - C(2,2)*x(4) - K(2,1)*x(1) - K(2,2)*x(3) + F(2)*cos(wn(1)*t)];
             
 %ODE45
     tMax = 20;
@@ -305,15 +307,15 @@ EOM of the System:
     
 %Plotting
     filename = 'Examples\Ex4.gif';
-    framesSkipped = 3;
-    tDelay = ((tMax*1.2)/numPoints)*framesSkipped;
+    framesSkipped = 1;
+    tDelay = (tMax/numPoints)*framesSkipped*2.5;
     for i = 1:length(x)
         fig1 = figure(1);
         clf(gcf)
         fig1.Name = 'Example 4';
-        xlim([-0.25 1.25]) %Custom Bounds were Required so plotSetup did not apply
-        ylim([0 1])
-        axis off equal
+        xlim([-0.5 1.5]) %Custom Bounds were Required so plotSetup did not apply
+        ylim([-0.25 1.25])
+        axis off
         hold on
         plotGround([0.3 0.4],[0.75 0.75],'down')
         plotGround([0.6 0.7],[0.70 0.70],'down')
@@ -322,6 +324,6 @@ EOM of the System:
         circ1Pos = plotCircle(endPen1,0.03,x(i,1));
         circ2Pos = plotCircle(endPen2,0.03,x(i,3));
         plotSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
-        plotForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
-%         saveDynPlot(filename,i,tDelay,framesSkipped)
+%         plotForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
+        saveDynPlot(filename,i,tDelay,framesSkipped)
     end
