@@ -1,12 +1,24 @@
-function output = plotLine(startPoint,varargin)
-% PLOTLINE plots a line for use in dynamics problems.
-%    PLOTLINE(startPoint,L,Theta) adds a line at startPoint with length L
-%    and angle Theta (measured in degrees from the horizontal axis)
+function output = mdpLine(startPoint,varargin)
+% mdpLine Creates a line for use as fixed points as well as moving ones
+%    Variations:
+%       mdpLine(startPoint,L,angle) = Line with fixed length
+%       mdpLine(startPoint,endPoint) = Line with variable length
+%    
+%    Required Inputs:
+%       startPoint & endPoint = [x y] position vectors
 %
-%    PLOTLINE(startPoint,endPoint) adds a line with at startPoint to
-%    endPoint
+%       L = scalar length to be used for line
 %
-%    See also PLOTSETUP, PLOTCIRCLE.
+%       angle = scalar angle, in degrees, measured from horizontal
+%
+%    Outputs:
+%       tipPoint = [x y] position vector for end point of line (only for
+%                  first case of function)
+%
+%    Examples:
+%       mdpLine([1 2],5,90)
+%
+%    See also mdpSetup, mdpBox, mdpCircle.
 
 %% TODO:
    %* Ability to add text to line

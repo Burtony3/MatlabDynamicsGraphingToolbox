@@ -1,24 +1,25 @@
-function plotSetup(N,Name)
-% PLOTSETUP sets initial conditions for plotting dynamics problems.
-%    PLOTSETUP() sets current figure settings to 
-%       * Clears current figure
-%       * X & Y limits to [0 1]
-%       * Removes box
+function mdpSetup(N,Name)
+% mdpSetup Creates figure window to be ready for plots
+%    Variations:
+%		mdpSetup
+%       mdpSetup(N)
+%       mdpSetup(N,Name)
 %
-%    PLOTSETUP(N,Name)
-%       * Clears figure(N)
-%       * Makes figure(N)'s header Name
-%       * X & Y limits to [0 1]
-%       * Removes box
+%    Optional Inputs
+%       N = Figure Number
 %
-%    See also PLOTGROUND, PLOTCIRCLE.
+%       Name = String containing name of figure window
+%
+%    Examples:
+%       mdpSetup(3,'foo')
+%
+%    See also mdpSave, mdpLine, mdpSpring.
 
-%{
-TODO:
-   * Change Case to Allow for Subplots
-   * Add Case for larger bounds ie: plotSetup(N,Name,[0 10])
-%}
+%% TODO
+%   Change Case to Allow for Subplots
+%   Add Case for larger bounds ie: plotSetup(N,Name,[0 10])
 
+%% Cases
     switch nargin
         case 2
             fig(N) = figure(N);

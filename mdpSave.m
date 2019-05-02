@@ -1,15 +1,21 @@
-function saveDynPlot(filename,index,delayTime,framesSkipped)
-% SAVEDYNPLOT saves each frame into a gif.
-%
-%    filename: Name of saved file, must have the extension of '.gif'
-%
-%    index: 
-%
-%    delayTime: Time between frames in seconds
-%
-%    framesSkipped: Number of frames inbetween saved frames
+function mdpSave(filename,index,delayTime,framesSkipped)
+% mdpSave Saves current figure window and outputs it as .gif
+%    Variations:
+%		mdpSave(filename,index,delayTime,framesSkipped)
 %    
-%    See also PLOTSETUP, PLOTGROUND, PLOTLINE, PLOTCIRCLE.
+%    Required Inputs:
+%       filename = outputted file name ending with .gif
+%
+%       index = current index for which to save the frame to
+%
+%       delayTime = Time between frames in seconds
+%
+%       framesSkipped = Number of frames/index between saving to gif
+%
+%    Examples:
+%       mdpSave('foo.gif',25,0.001,3)
+%
+%    See also plot, mdpPhasePlot, mdpSetup.
 
 %% Setup
 

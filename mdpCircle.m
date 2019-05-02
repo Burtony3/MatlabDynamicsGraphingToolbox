@@ -1,16 +1,25 @@
-function edgePositions = plotCircle(cPos,R,varargin)
-% PLOTCIRCLE plots a datum for use in dynamics problems.
-%    PLOTCIRCLE(centerPosition(x,y),R) Plots a circle at centerPostion
+function edgePos = mdpCircle(cPos,R,varargin)
+% mdpCircle plots a datum for use in dynamics problems.
+%    mdpCircle(centerPosition,R,angle) Plots a circle at centerPostion
 %    with Radius R.
 %    
-%    Also outputs the four edge positions starting from horizontal at 
-%    angles = [0 90 180 270] Degrees
+%    Required Inputs:
+%       cPos = [x y] position vector of center of circle
 %
-%    PLOTCIRCLE(centerPosition(x,y),R,angle will adjust the above positions
-%    with the given angle
+%       R = scalar of radius of circle
 %
-%    See also PLOTSETUP, PLOTLINE.
-
+%    Optional Inputs
+%       angle = scalar angle, in degrees, of circle from its original
+%               orientation (only affects edgePositions outputs)
+%
+%    Outputs:
+%       edgePos = [x y] of the four edges of the circle in order 
+%                 [0 90 180 270] degrees CCW from horizontal right
+%
+%    Examples:
+%       edgePos = mdpCircle([3 2], 3)
+%
+%    See also mdpSetup, mdpBox, mdpLine.
 %% TODO:
    %* The length of the theta array should scale with figure limits
    %* Add ability to add text to circle
@@ -30,8 +39,8 @@ function edgePositions = plotCircle(cPos,R,varargin)
             plot(xCirc,yCirc,'-k','LineWidth',1.5)
             fill(xCirc,yCirc,'w')
             
-            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(1);
-            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(2);
+            edgePos(:,1) = R*cos([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(1);
+            edgePos(:,2) = R*sin([0 pi/2 pi 3*pi/2] + deg2rad(varargin{1})) + cPos(2);
         
         
 %% Radius and Position Case
@@ -48,8 +57,8 @@ function edgePositions = plotCircle(cPos,R,varargin)
             plot(xCirc,yCirc,'-k','LineWidth',1.5)
             fill(xCirc,yCirc,'w')
             
-            edgePositions(:,1) = R*cos([0 pi/2 pi 3*pi/2]) + cPos(1);
-            edgePositions(:,2) = R*sin([0 pi/2 pi 3*pi/2]) + cPos(2);
+            edgePos(:,1) = R*cos([0 pi/2 pi 3*pi/2]) + cPos(1);
+            edgePos(:,2) = R*sin([0 pi/2 pi 3*pi/2]) + cPos(2);
     end
     
 end

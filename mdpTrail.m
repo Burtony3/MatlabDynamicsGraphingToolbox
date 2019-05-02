@@ -1,25 +1,27 @@
-function plotTrail(originPoint,index,varargin)
-% PLOTTRAIL plots a ghost trail from a point to illustrate motion.
-%  
-%   Inputs:
-%    * originPoint: The array that the trail will follow in the form of a two
-%      column matrix, Column 1 being the 'x' position & Column 2 being the 'y'
-%
-%    * index: The current index in the loop, or the index at which the trail
-%      starts from in the originPoint array
-%
-%    * length: The length, of the indexes in the matrix that are taken into
-%      account.
+function mdpTrail(originPoint,index,varargin)
+% mdpTrail plots ghost trail that follows a certain vector at any time
+%    Variations:
+%		mdpTrail(originPoint,index)
+%       mdpTrail(originPoint,index,length)
+%       mdpTrail(originPoint,index,length,lineOptions)
 %    
-%    * lineOptions: A structure with all line options chosen, in the same
-%      for as any other plot()
+%    Required Inputs:
+%       originPoint = nx2 vectory specifying the x & y positions at each
+%                     index
 %
-%   Example:
-%      lineOptions.LineWidth = 1.5;
-%      lineOptions.Color = 'g';
-%      plotTrail(matrix,i,25,lineOptions)
+%       index = Current point in time for which to reference position
 %
-%    See also PLOTSETUP, PLOTGROUND, PLOTLINE, PLOTCIRCLE.
+%    Optional Inputs
+%       length = specifies index length for which to plot line
+%
+%       lineOptions = structure for which to save plot options to
+%
+%    Examples:
+%       lineOptions.LineWidth = 1.5;
+%       lineOptions.Color = 'g';
+%       mdpTrail(posMatrix,i,25,lineOptions)
+%
+%    See also mdpSave, mdpGround, mdpSpring.
 
     switch nargin
 %% Finite Length with Color Case

@@ -1,15 +1,19 @@
-function plotPhaseDiagram(ode45PosOutput,ode45TimeOutput,index,figNum)
-% PLOTCIRCLE plots a datum for use in dynamics problems.
-%    PLOTCIRCLE(centerPosition(x,y),R) Plots a circle at centerPostion
-%    with Radius R.
+function mdpPhasePlot(ode45PosOutput,ode45TimeOutput,index,figNum)
+% mdpPhasePlot Outputs phase diagram from ode45 results
+%    Variations:
+%		mdpPhasePlot(ode45PosOutput,ode45TimeOutput,index)
 %    
-%    Also outputs the four edge positions starting from horizontal at 
-%    angles = [0 90 180 270] Degrees
+%    Required Inputs:
+%       ode45PosOutput = Full output position/velocity vector from ode45
 %
-%    PLOTCIRCLE(centerPosition(x,y),R,angle will adjust the above positions
-%    with the given angle
+%       ode45TimeOutput = Time vector ouputed from ode45
 %
-%    See also PLOTSETUP, PLOTLINE.
+%       index = Current index in position/time ode45 arrays to measure
+%
+%    Examples:
+%       mdpPhasePlot(x,t,10)
+%
+%    See also mdpSetup, mdpSave, ode45.
 
 %% Collected Inputs
     x = ode45PosOutput;

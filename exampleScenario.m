@@ -32,12 +32,12 @@ EOM of the System:
     
 %Plotting using DynamicsGraphingToolbox    
     for i = 1:length(t)
-        plotSetup(1,'Example 1: Pendulum')
-        plotGround(0.9,'down')
-        endPoint(i,1:2) = plotLine([0.5 0.9],L,angle(i,1)-90);
-        plotTrail(endPoint,i,20,lineOptions)
-        plotCircle(endPoint(i,:),0.03);
-        saveDynPlot(filename,i,tDelay,2)
+        mdpSetup(1,'Example 1: Pendulum')
+        mdpGround(0.9,'down')
+        endPoint(i,1:2) = mdpLine([0.5 0.9],L,angle(i,1)-90);
+        mdpTrail(endPoint,i,20,lineOptions)
+        mdpCircle(endPoint(i,:),0.03);
+        mdpSave(filename,i,tDelay,2)
         hold off
     end
     
@@ -180,16 +180,16 @@ EOM of the System:
             ylim([0 0.5])
             axis off equal
             hold on
-            plotGround([0 2],[0.1 0.1])
-            box1 = plotBox([(0.65+x(i,1)) 0.15],0.05,0.05); %Far Left Box
-            box2 = plotBox([(0.50+x(i,3)) 0.15],0.05,0.05); %Second from Left
-            box3 = plotBox([(0.35+x(i,5)) 0.15],0.05,0.05); %Middle Box
-            box4 = plotBox([(0.20+x(i,7)) 0.15],0.05,0.05); %Second from Right
-            box5 = plotBox([(0.05+x(i,9)) 0.15],0.05,0.05); %Last Box
-            plotSpring(box2(1,:),box1(3,:),3,0.1) %Spring between Box1 & Box2
-            plotSpring(box3(1,:),box2(3,:),3,0.1) %Spring between Box2 & Box3
-            plotSpring(box4(1,:),box3(3,:),3,0.1) %Spring between Box3 & Box4
-            plotSpring(box5(1,:),box4(3,:),3,0.1) %Spring between Box4 & Box5
+            mdpGround([0 0.1],[2 0.1])
+            box1 = mdpBox([(0.65+x(i,1)) 0.15],0.05,0.05); %Far Left Box
+            box2 = mdpBox([(0.50+x(i,3)) 0.15],0.05,0.05); %Second from Left
+            box3 = mdpBox([(0.35+x(i,5)) 0.15],0.05,0.05); %Middle Box
+            box4 = mdpBox([(0.20+x(i,7)) 0.15],0.05,0.05); %Second from Right
+            box5 = mdpBox([(0.05+x(i,9)) 0.15],0.05,0.05); %Last Box
+            mdpSpring(box2(1,:),box1(3,:),3,0.1) %Spring between Box1 & Box2
+            mdpSpring(box3(1,:),box2(3,:),3,0.1) %Spring between Box2 & Box3
+            mdpSpring(box4(1,:),box3(3,:),3,0.1) %Spring between Box3 & Box4
+            mdpSpring(box5(1,:),box4(3,:),3,0.1) %Spring between Box4 & Box5
             stringBox = sprintf('Time = %0.3f Seconds',tSpan(i));
             annotation(gcf,'textbox',...
                 [0.15 0.25 0.55 0.10],...
@@ -197,7 +197,7 @@ EOM of the System:
                 'String',stringBox,...
                 'LineStyle','none',...
                 'FitBoxToText','off');
-            saveDynPlot(filename,i,tDelay,1)
+            mdpSave(filename,i,tDelay,1)
         end
         
 %% Example 4 (2 Pendulums Connected with a Spring)
@@ -250,19 +250,19 @@ EOM of the System:
             ylim([0 1])
             axis off equal
             hold on
-            plotGround([0.3 0.4],[0.75 0.75],'down')
-            plotGround([0.6 0.7],[0.70 0.70],'down')
-            endPen1 = plotLine([0.35 0.75],l(1),x(i,1) - 90);
-            endPen2 = plotLine([0.65 0.70],l(2),x(i,3) - 90);
-            circ1Pos = plotCircle(endPen1,0.03,x(i,1));
-            circ2Pos = plotCircle(endPen2,0.03,x(i,3));
-            plotSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
+            mdpGround([0.3 0.75],[0.4 0.75],'down')
+            mdpGround([0.6 0.70],[0.7 0.70],'down')
+            endPen1 = mdpLine([0.35 0.75],l(1),x(i,1) - 90);
+            endPen2 = mdpLine([0.65 0.70],l(2),x(i,3) - 90);
+            circ1Pos = mdpCircle(endPen1,0.03,x(i,1));
+            circ2Pos = mdpCircle(endPen2,0.03,x(i,3));
+            mdpSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
         subplot(1,2,2)
-            plotPhaseDiagram(x,t,i,1)
+            mdpPhasePlot(x,t,i,1)
             legend('Pendulum 1','Pendulum 2')
             xlabel('Angular Position (in Degrees)')
             ylabel('Angular Velocity (in Degrees per Second)')
-        saveDynPlot(filename,i,tDelay,framesSkipped)
+        mdpSave(filename,i,tDelay,framesSkipped)
     end
 
     
@@ -317,13 +317,13 @@ EOM of the System:
         ylim([-0.25 1.25])
         axis off
         hold on
-        plotGround([0.3 0.4],[0.75 0.75],'down')
-        plotGround([0.6 0.7],[0.70 0.70],'down')
-        endPen1 = plotLine([0.35 0.75],l(1),x(i,1) - 90);
-        endPen2 = plotLine([0.65 0.70],l(2),x(i,3) - 90);
-        circ1Pos = plotCircle(endPen1,0.03,x(i,1));
-        circ2Pos = plotCircle(endPen2,0.03,x(i,3));
-        plotSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
-%         plotForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
-        saveDynPlot(filename,i,tDelay,framesSkipped)
+        mdpGround([0.3 0.75],[0.4 0.75],'down')
+        mdpGround([0.6 0.70],[0.7 0.70],'down')
+        endPen1 = mdpLine([0.35 0.75],l(1),x(i,1) - 90);
+        endPen2 = mdpLine([0.65 0.70],l(2),x(i,3) - 90);
+        circ1Pos = mdpCircle(endPen1,0.03,x(i,1));
+        circ2Pos = mdpCircle(endPen2,0.03,x(i,3));
+        mdpSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
+%         mdpForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
+        mdpSave(filename,i,tDelay,framesSkipped)
     end

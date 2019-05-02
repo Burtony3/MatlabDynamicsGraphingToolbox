@@ -1,18 +1,19 @@
-function plotSpring(startPoint,endPoint,numSpikes,startLength)
-% PLOTSPRING plots a line for use in dynamics problems.
-%   PLOTSPRING(startPos,endPos,numSpikes,startLength) creates a spring
-%   starting at startPos ending at endPos with numSpikes number of peaks.
-%   
-%       startPos = [x y] position of the origin point of the spring
+function mdpSpring(startPoint,endPoint,numSpikes,startLength)
+% mdpSpring Creates a spring that connects two points together
+%    Variations:
+%		mdpSpring(startPoint,endPoint,numSpikes,startLength)
+%    
+%    Required Inputs:
+%       startPoint & endPoint = [x y] position vectors
 %
-%       endPos = [x y] position of the terminating point of the spring
+%       numSpikes = scalar multiplier of the number of 'N Waves'
 %
-%       numSpikes = the number of repeated spikes in the length of spring
+%       startLength = scalar signifying the unstretched length of spring
 %
-%       startLength = the unstretched length of the spring which is used to
-%       determin how stretched or contracted the spring is.
+%    Examples:
+%       mdpSpring([0.1 0.1],[0.4 0.8],4,0.5)
 %
-%    See also PLOTDAMPER, PLOTCIRCLE.
+%    See also mdpSetup, mdpCircle, mdpTrail.
 
 %% Solving Inital Points of Spring
     %Finding Angle of Spring End Points

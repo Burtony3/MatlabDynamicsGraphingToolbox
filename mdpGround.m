@@ -1,32 +1,38 @@
-function plotGround(varargin)
-% PLOTGROUND plots a datum for use in dynamics problems.
-%    PLOTGROUND(H) adds a flat ground at height H
+function mdpGround(varargin)
+% mdpGround Creates a visual datum for use in dynamics plotting.
+%    Variations:
+%       mdpGround(H) = Ground spanning whole graph at y position H
+%       mdpGround(H, Orientation) = Same as above w/ specified orientation
+%       mdpGround(startPos,endPos) = Ground spanning from startPos to
+%                                    EndPos
+%       mdpGround(startPos,endPos,Orientation) = Same as above w/ specified
+%                                                orientation
 %
-%    PLOTGROUND(H,Orientation) adds a flat ground at height H with
-%    Orientation up or down
+%    Required Inputs:
+%       H = scalar height position
 %
-%    PLOTGROUND(xSpan , ySpan) adds a ground with 
-%       Starting point: [xSpan(1) ySpan(1)]
-%       Ending point: [xSpan(2) ySpan(2)]
+%       OR
 %
-%    PLOTGROUND(xSpan , ySpan , Orientation) adds a ground with 
-%       Starting point: [xSpan(1) ySpan(1)]
-%       Ending point: [xSpan(2) ySpan(2)]
-%       Orientation: Declares which side the splines are on
-%           * 'up' or 'down' with reference to flat ground
-%           * For vertical lines: 'down' negative normal direction
-%                                 'up' is positive normal direction
+%       startPos & endPos = [x y] position vectors
 %
-%    See also PLOTSETUP, PLOTLINE.
-
-%% TODO:
-   %* Change inputs from xSpan & ySpan --> point1 & point2
+%    Optional Inputs
+%       Orientation = Either 'up' or 'down' depending on the use case for
+%                     each graph. 
+%                     'up' is positive normal direction (this is the
+%                     assumed value if left unspecified).
+%                     'down' is negative normal direction
+%
+%    Examples:
+%       mdpGround(0.5)
+%       mdpGround([0.1 0.7],[0.8 0.8],'down')
+%
+%    See also mdpSetup, mdpBox, mdpLine.
 
     switch nargin
 %% Sloped Ground Case
         case 3
             %Angle Check
-                angle = atan(diff(varargin{2}))/(diff(varargin{1}));
+                angle = atan((varargin{2}(2)-varargin{1}(2))/(varargin{2}(1)-varargin{1}(1)));
                 if angle == inf
                     angle = pi/2;
                 elseif angle == -inf
@@ -34,13 +40,13 @@ function plotGround(varargin)
                 end
             
             %Finding Spline Number
-                numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*5;
+                numSplines = round(sqrt(((varargin{2}(1)-varargin{1}(1))*10)^2 + ((varargin{2}(2)-varargin{1}(2))*10)^2))*5;
             
             if isequal(varargin{3},'up')
                 
                 %Finding Spline Locations
-                    xSpline(:,1) = linspace(varargin{1}(1),varargin{1}(2),numSplines);
-                    ySpline(:,1) = linspace(varargin{2}(1),varargin{2}(2),numSplines);
+                    xSpline(:,1) = linspace(varargin{1}(1),varargin{2}(1),numSplines);
+                    ySpline(:,1) = linspace(varargin{1}(2),varargin{2}(2),numSplines);
                     xSpline(:,2) = xSpline(:,1) - 0.015*(cos(angle) - sin(angle));
                     ySpline(:,2) = ySpline(:,1) - 0.015*(cos(angle) + sin(angle));
                 
@@ -51,13 +57,13 @@ function plotGround(varargin)
             elseif isequal(varargin{3},'down')
                 
                 %Finding Spline Locations
-                    xSpline(:,1) = linspace(varargin{1}(1),varargin{1}(2),numSplines);
-                    ySpline(:,1) = linspace(varargin{2}(1),varargin{2}(2),numSplines);
+                    xSpline(:,1) = linspace(varargin{1}(1),varargin{2}(1),numSplines);
+                    ySpline(:,1) = linspace(varargin{1}(2),varargin{2}(2),numSplines);
                     xSpline(:,2) = xSpline(:,1) - 0.015*(cos(angle) + sin(angle));
                     ySpline(:,2) = ySpline(:,1) + 0.015*(cos(angle) - sin(angle));
                     
                 %Plotting
-                    plot(varargin{1},varargin{2},'-k',...
+                    plot([varargin{1}(1) varargin{2}(1)],[varargin{1}(2) varargin{2}(2)],'-k',...
                          xSpline',ySpline','-k','LineWidth',1.5)
             else
                 %Error Handling
@@ -93,7 +99,7 @@ function plotGround(varargin)
             elseif isvector(varargin{1}) && isvector(varargin{2})
                 
                 %Angle Check
-                    angle = atan(diff(varargin{2}))/(diff(varargin{1}));
+                    angle = atan((varargin{2}(2)-varargin{1}(2))/(varargin{2}(1)-varargin{1}(1)));
                     if angle == inf
                         angle = pi/2;
                     elseif angle == -inf
@@ -101,16 +107,16 @@ function plotGround(varargin)
                     end
 
                 %Finding Spline Number
-                    numSplines = round(sqrt(diff(varargin{1}*10)^2 + diff(varargin{2}*10)^2))*5;
+                    numSplines = round(sqrt(((varargin{2}(1)-varargin{1}(1))*10)^2 + ((varargin{2}(2)-varargin{1}(2))*10)^2))*5;
 
                 %Finding Spline Locations
-                    xSpline(:,1) = linspace(varargin{1}(1),varargin{1}(2),numSplines);
-                    ySpline(:,1) = linspace(varargin{2}(1),varargin{2}(2),numSplines);
+                    xSpline(:,1) = linspace(varargin{1}(1),varargin{2}(1),numSplines);
+                    ySpline(:,1) = linspace(varargin{1}(2),varargin{2}(2),numSplines);
                     xSpline(:,2) = xSpline(:,1) - 0.015*(cos(angle) - sin(angle));
                     ySpline(:,2) = ySpline(:,1) - 0.015*(cos(angle) + sin(angle));
 
                 %Plotting
-                    plot(varargin{1},varargin{2},'-k',...
+                    plot([varargin{1}(1) varargin{2}(1)],[varargin{1}(2) varargin{2}(2)],'-k',...
                          xSpline',ySpline','-k','LineWidth',1.5)                 
             else
                 
