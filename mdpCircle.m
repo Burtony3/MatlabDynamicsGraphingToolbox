@@ -1,7 +1,5 @@
 function edgePos = mdpCircle(cPos,R,varargin)
-% mdpCircle plots a datum for use in dynamics problems.
-%    mdpCircle(centerPosition,R,angle) Plots a circle at centerPostion
-%    with Radius R.
+% mdpCircle plots a circle at a certain point.
 %    
 %    Required Inputs:
 %       cPos = [x y] position vector of center of circle

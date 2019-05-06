@@ -1,7 +1,5 @@
 function edgePos = mdpBox(centerPos,width,height,varargin)
 % mdpBox plots a box at a point & outputs useful points on box.
-%    mdpBox(centerPos,width,height,angle) adds a box with center at
-%    centerPos with width and height at specified angle.
 %
 %    Required Inputs:
 %       centerPos = [x y] position vector of center

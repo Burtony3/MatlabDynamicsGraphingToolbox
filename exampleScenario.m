@@ -308,7 +308,8 @@ EOM of the System:
 %Plotting
     filename = 'Examples\Ex4.gif';
     framesSkipped = 1;
-    tDelay = (tMax/numPoints)*framesSkipped*2.5;
+    tDelay = (tMax/numPoints)*framesSkipped*3;
+    Force = F(1).*cos(wn(1).*t);
     for i = 1:length(x)
         fig1 = figure(1);
         clf(gcf)
@@ -324,6 +325,6 @@ EOM of the System:
         circ1Pos = mdpCircle(endPen1,0.03,x(i,1));
         circ2Pos = mdpCircle(endPen2,0.03,x(i,3));
         mdpSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
-%         mdpForce(circ1Pos(1,:),x(i,1),0.2,F(1)*cos(wn(1)*t(i)),i)
-        mdpSave(filename,i,tDelay,framesSkipped)
+        mdpForce(endPen1,x(i,1),0.2,Force,i)
+%         mdpSave(filename,i,tDelay,framesSkipped)
     end
