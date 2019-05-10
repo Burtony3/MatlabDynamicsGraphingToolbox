@@ -28,7 +28,7 @@ This **open-source** tool set was created for making the visualization of dynami
 - **mdpTrail**: Creates a trail from the a given position array
 
 
-More help on any of these functions can be found by typing `help functionName` into the MATLAB Command Window
+More detailed help on any of these functions can be found by typing `help functionName` into the MATLAB Command Window
  
  
 
@@ -50,3 +50,5 @@ endPoint = mdpLine([0.5],0.25,angle - 90) %The -90 translates line from horizont
 mdpCircle(endPoint,0.05,angle)
 
 ```
+
+For more examples, reference `exampleScenario.m` which contains use cases of all functions listed above. Some examples include two single pendulums linked by a spring and excited by a harmonic force, and 5 boxes connected by springs with the front pulled by a constant force.
