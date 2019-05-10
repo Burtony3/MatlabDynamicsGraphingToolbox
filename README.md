@@ -1,47 +1,52 @@
-# MatlabDynamicsGraphingToolbox
+# MatlabDynamicsPlottingToolbox
 
 
-	This open-source tool set was created for making the visualization of dynamics problems a 
-much simpler process by condensing necessary interlocking shapes into a set of easy to use functions.
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+This **open-source** tool set was created for making the visualization of dynamics problems a much simpler process by condensing necessary interlocking shapes into a set of easy to use functions.
 
-Note:
-   For more explaination on the below functions reference the "help" command in MATLAB for specific use cases.
 
-    ___________________________________________________________________________
-   | For example "help plotGround" returns:                                    |
-   |                                                                           |
-   |    plotGround plots a datum for use in dynamics problems.                 |
-   |      plotGround(H) adds a flat ground at height H                         |
-   |                                                                           |
-   |      plotGround(H,Orientation) adds a flat ground at height H with        |
-   |      Orientation up or down                                               |
-   |                                                                           |
-   |      plotGround(xSpan , ySpan) adds a ground with                         | 
-   |         Starting point: [xSpan(1) ySpan(1)]                               |
-   |         Ending point: [xSpan(2) ySpan(2)]                                 |
-   |                                                                           |
-   |      plotGround(xSpan , ySpan , Orientation) adds a ground with           |
-   |         Starting point: [xSpan(1) ySpan(1)]                               |
-   |         Ending point: [xSpan(2) ySpan(2)]                                 |
-   |         Orientation: Declares which side the splines are on               |
-   |             * 'up' or 'down' with reference to flat ground                |
-   |             * For vertical lines: 'down' negative normal direction        |
-   |                                   'up' is positive normal direction       |
-   |                                                                           |
-   |      See also plotSetup, PLOTLINE.                                        |
-   |___________________________________________________________________________|
 
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+## List of Functions
 
-Functions:
-   * plotSetup():
-     This function should be used first before all other functions to prep the figure space for graphing the problem.
+ 
+- **mdpSetup**: Creates figure and setups up plot space
+ 
+- **mdpGround**: Plots the datum/ground as seen in most dynamics problems
+ 
+- **mdpSave**: Saves plot as a gif when running in a for loop
+ 
+- **mdpPhasePlot**: Creates phase diagram from the ode-function outputs
+ 
+- **mdpLine**: Creates line that outputs the endpoint to attach other shapes to
+ 
+- **mdpCircle**: Plots circle at a given point and outputs the edge points in each of the cardinal directions (0, 90, 180, 270 Degrees measured from the horizontal axis CCW)
+ 
+- **mdpBox**: Plots box like mdpCircle, while outputting points at the center of each edge. 
+ 
+- **mdpSpring**: Plots a spring given two end points and an original, unstretched length. 
+ 
+- **mdpTrail**: Creates a trail from the a given position array
 
-   * plotGround():
-     Also known as datum, this function creates the characteristic shape used by most dynamics books to where either
-     the potential energy equals zero, and/or a place to fix an object
 
-   * plotLine():
-     Self-Explanitory
+More help on any of these functions can be found by typing `help functionName` into the MATLAB Command Window
+ 
+ 
+
+## Function Examples
+
+
+### Creating Single Pendulum
+    
+
+```
+[t,angle] = ode45(odeFun,tSpan,IC,options)
+    
+mdpSetup
+    
+mdpGround([0 0.8],[1 0.8],'down')
+    
+endPoint = mdpLine([0.5],0.25,angle - 90) %The -90 translates line from horizontal to down
+    
+mdpCircle(endPoint,0.05,angle)
+
+```
