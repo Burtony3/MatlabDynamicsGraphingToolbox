@@ -29,8 +29,14 @@ This **open-source** tool set was created for making the visualization of dynami
 
 
 More detailed help on any of these functions can be found by typing `help functionName` into the MATLAB Command Window
- 
- 
+
+
+## Installation
+
+
+By running the `MatlabDynamicsPlottingToolbox.mltbx`, it will install the functions above as a Toolbox in MATLAB and make it available in any `.m` file. 
+  
+
 
 ## Function Examples
 
