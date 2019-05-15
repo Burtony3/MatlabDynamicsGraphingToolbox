@@ -1,50 +1,39 @@
-function mdpSetup(N,Name)
+function mdpSetup(N,xLIM,yLIM,windowHeight,i)
 % mdpSetup Creates figure window to be ready for plots
 %    Variations:
-%		mdpSetup
-%       mdpSetup(N)
-%       mdpSetup(N,Name)
+%		mdpSetup(N,plotSpace,windowHeight,
 %
-%    Optional Inputs
+%    Required Inputs:
 %       N = Figure Number
 %
-%       Name = String containing name of figure window
+%       xLIM/yLIM = Same use case as in commands xlim or ylim
+%
+%       windowHeight = Height of figure window in pixels
+%
+%       i = index (Used to prevent flashing cuased by movegui())
 %
 %    Examples:
-%       mdpSetup(3,'foo')
+%       mdpSetup(3,[0 1],[0 2],1080,i)
 %
 %    See also mdpSave, mdpLine, mdpSpring.
 
 %% TODO
 %   Change Case to Allow for Subplots
 %   Add Case for larger bounds ie: plotSetup(N,Name,[0 10])
+%%
+    %Computations
+        figAR = diff(xLIM)/diff(yLIM);
 
-%% Cases
-    switch nargin
-        case 2
-            fig(N) = figure(N);
-            clf(fig(N))
-            fig(N).Name = Name;
-            fig(N).NumberTitle = 'off';
-            xlim([0 1])
-            ylim([0 1])
-            axis off equal
-            hold on
-            
-        case 1
-            fig(N) = figure(N);
-            clf(fig(N))
-            xlim([0 1])
-            ylim([0 1])
-            axis off equal
-            hold on
-            
-        case 0
-            figure(gcf)
-            clf(gcf)
-            xlim([0 1])
-            ylim([0 1])
-            axis off equal
-            hold on
+    fig(N) = figure(N);
+    clf(fig(N))
+    xlim(xLIM)
+    ylim(yLIM)
+    axis off equal
+    if i == 1
+        figPos = get(fig(N),'Position');
+        set(fig(N),'Position',[figPos(1:2) figAR*windowHeight windowHeight])
+        movegui(fig(N),'center')
+        pause(0.05)
     end
-        
+    hold on
+    
