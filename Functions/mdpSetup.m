@@ -1,7 +1,7 @@
 function mdpSetup(N,xLIM,yLIM,windowHeight,i)
 % mdpSetup Creates figure window to be ready for plots
 %    Variations:
-%		mdpSetup(N,plotSpace,windowHeight,
+%		mdpSetup(N,xLimits,yLimits,windowHeight,iteration)
 %
 %    Required Inputs:
 %       N = Figure Number
@@ -25,15 +25,16 @@ function mdpSetup(N,xLIM,yLIM,windowHeight,i)
         figAR = diff(xLIM)/diff(yLIM);
 
     fig(N) = figure(N);
-    clf(fig(N))
-    xlim(xLIM)
-    ylim(yLIM)
-    axis off equal
     if i == 1
+        fprintf('Creating Figure Window\n')
         figPos = get(fig(N),'Position');
         set(fig(N),'Position',[figPos(1:2) figAR*windowHeight windowHeight])
         movegui(fig(N),'center')
         pause(0.05)
     end
+    clf(fig(N))
+    xlim(xLIM)
+    ylim(yLIM)
+    axis off
     hold on
     

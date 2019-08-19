@@ -32,7 +32,7 @@ EOM of the System:
     
 %Plotting using DynamicsGraphingToolbox    
     for i = 1:length(t)
-        mdpSetup(1,'Example 1: Pendulum')
+        mdpSetup(1,[0 1],[0 1],480,i)
         mdpGround(0.9,'down')
         endPoint(i,1:2) = mdpLine([0.5 0.9],L,angle(i,1)-90);
         mdpTrail(endPoint,i,20,lineOptions)
@@ -68,18 +68,15 @@ EOM of the System:
                             (-g/L)*sind(x(1)) - c(i)*x(2)]; % xDotDot = EOM
         
         %Integrating
-            [t,angle] = ode45(ex1EOM, tspan, IC, options);
+            [~,angle] = ode45(ex1EOM, tspan, IC, options);
 
         %Plotting
             figure(1)
-%             set(gcf,'Position',[271,451,1324,382]);
             plot(angle(:,1),angle(:,2),'LineWidth',1.5)
             axis equal
             title('Phase Space of Example 1 with Large Angular Velocity IC as Damping Ratio Changes')
             xlabel('Angular Position (Degrees)')
-%             xlim([-50 720])
             ylabel('Angular Velocity (Degrees per Second)')
-%             ylim([-75 150])
             legChar = 'Damping Ratio = '+string(c(i));
             legend(legChar)
             grid on
@@ -105,7 +102,6 @@ EOM of the System:
     k = [55 55 29 29]*1000; %Stiffness of each spring (in kN/m)
     alpha = 0; %First Coefficient of Rayleigh's Damping Model
     beta = 0.02; %Second Coefficient of Rayleight's Damping Model
-    F = 100*1000;
     
 %Solutions
     %Mass matrix
@@ -133,9 +129,7 @@ EOM of the System:
              0];
     
     %Solving for Natural Frequencies     
-        [U,~] = eig(inv(M)*K);
-        
-    %Dividing C & K by M
+        [~,~] = eig(inv(M)*K);
 
     %Creating Tilde Matricies
         K = inv(M)*K;
@@ -164,7 +158,7 @@ EOM of the System:
               0 0;
               0 0;
               0 0];
-        [t,x] = ode45(f,tSpan,IC,options);
+        [~,x] = ode45(f,tSpan,IC,options);
         
         clear IC options U alpha beta k m 
         
@@ -172,14 +166,7 @@ EOM of the System:
         filename = 'Examples\Ex3.gif';
         tDelay = tMax/numPoints;
         for i = 1:length(x)
-            fig1 = figure(1);
-            set(gcf,'Position',[66 342 981 420])
-            clf(gcf)
-            fig1.Name = 'Example 3';
-            xlim([0 2]) %Custom Bounds were Required so plotSetup did not apply
-            ylim([0 0.5])
-            axis off equal
-            hold on
+            mdpSetup(1,[0 2],[0 0.5],480,i)
             mdpGround([0 0.1],[2 0.1])
             box1 = mdpBox([(0.65+x(i,1)) 0.15],0.05,0.05); %Far Left Box
             box2 = mdpBox([(0.50+x(i,3)) 0.15],0.05,0.05); %Second from Left
@@ -192,81 +179,17 @@ EOM of the System:
             mdpSpring(box5(1,:),box4(3,:),3,0.1) %Spring between Box4 & Box5
             stringBox = sprintf('Time = %0.3f Seconds',tSpan(i));
             annotation(gcf,'textbox',...
-                [0.15 0.25 0.55 0.10],...
-                'VerticalAlignment','bottom',...
-                'String',stringBox,...
-                'LineStyle','none',...
-                'FitBoxToText','off');
+                       [0.15 0.15 0.55 0.10],...
+                       'VerticalAlignment','bottom',...
+                       'String',stringBox,...
+                       'LineStyle','none',...
+                       'FitBoxToText','off');
             mdpSave(filename,i,tDelay,1)
+            hold off
         end
-        
-%% Example 4 (2 Pendulums Connected with a Spring)
-
-%Givens
-    m = 0.5;
-    l = [0.55 0.5];
-    k = 0.5;
-    g = 9.81;
-    alpha = 0.0761;
-    
-%Matricies
-    M = [m*l(1)^2     0;
-             0    m*l(2)^2];
-    K = [(k*l(1)^2 +m*g*l(1))     (-k*l(1)*l(2));
-            (-k*l(1)*l(2))    (k*l(2)^2 + m*g*l(2))]; %Derived from EoMs
-    C = alpha*M;
-     
-%Eigenvectors/Eigenvalues
-    [u,lambda] = eig(inv(M)*K,'vector');
-    wn = sqrt(lambda);
-     
-%EoM Functions
-    K = inv(M)*K;
-    f = @(t,x) [x(2);
-                -C(1,1)*x(2) - C(1,2)*x(4) - K(1,1)*x(1) - K(1,2)*x(3);
-                x(4);
-                -C(2,1)*x(2) - C(2,2)*x(4) - K(2,1)*x(1) - K(2,2)*x(3)];
-            
-%ODE45
-    tMax = 20;
-    numPoints = 800;
-    tSpan = linspace(0,tMax,numPoints);
-    options = odeset('AbsTol',1e-6,'RelTol',1e-6);
-    IC = [-10 0;
-          0 0];
-    [t,x] = ode45(f,tSpan,IC,options);
-    
-%Plotting
-    filename = 'Examples\Ex4.gif';
-    framesSkipped = 3;
-    tDelay = ((tMax*1.2)/numPoints)*framesSkipped;
-    for i = 1:length(x)
-        fig1 = figure(1);
-        clf(gcf)
-        set(gcf,'Position',[345,333,1180,500]);
-        subplot(1,2,1)
-            fig1.Name = 'Example 4';
-            xlim([-0.25 1.25]) %Custom Bounds were Required so plotSetup did not apply
-            ylim([0 1])
-            axis off equal
-            hold on
-            mdpGround([0.3 0.75],[0.4 0.75],'down')
-            mdpGround([0.6 0.70],[0.7 0.70],'down')
-            endPen1 = mdpLine([0.35 0.75],l(1),x(i,1) - 90);
-            endPen2 = mdpLine([0.65 0.70],l(2),x(i,3) - 90);
-            circ1Pos = mdpCircle(endPen1,0.03,x(i,1));
-            circ2Pos = mdpCircle(endPen2,0.03,x(i,3));
-            mdpSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
-        subplot(1,2,2)
-            mdpPhasePlot(x,t,i,1)
-            legend('Pendulum 1','Pendulum 2')
-            xlabel('Angular Position (in Degrees)')
-            ylabel('Angular Velocity (in Degrees per Second)')
-        mdpSave(filename,i,tDelay,framesSkipped)
-    end
 
     
-%% Example 5 (2 Pendulums Connected with a Spring)
+%% Example 4 (2 Pendulums Connected with a Spring under Harmonic Excitation)
 
 %Givens
     m = 0.5;
@@ -311,13 +234,7 @@ EOM of the System:
     tDelay = (tMax/numPoints)*framesSkipped*3;
     Force = F(1).*cos(wn(1).*t);
     for i = 1:length(x)
-        fig1 = figure(1);
-        clf(gcf)
-        fig1.Name = 'Example 4';
-        xlim([-0.5 1.5]) %Custom Bounds were Required so plotSetup did not apply
-        ylim([-0.25 1.25])
-        axis off
-        hold on
+        mdpSetup(1,[-0.1 1.1],[0 1],480,i)
         mdpGround([0.3 0.75],[0.4 0.75],'down')
         mdpGround([0.6 0.70],[0.7 0.70],'down')
         endPen1 = mdpLine([0.35 0.75],l(1),x(i,1) - 90);
@@ -326,5 +243,6 @@ EOM of the System:
         circ2Pos = mdpCircle(endPen2,0.03,x(i,3));
         mdpSpring(circ1Pos(1,:),circ2Pos(3,:),3,0.27)
         mdpForce(endPen1,x(i,1),0.2,Force,i)
-%         mdpSave(filename,i,tDelay,framesSkipped)
+        mdpSave(filename,i,tDelay,framesSkipped)
+        hold off
     end
